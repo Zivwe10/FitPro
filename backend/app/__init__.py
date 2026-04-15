@@ -189,7 +189,7 @@ def create_app():
     app.register_blueprint(coach.coach_bp, url_prefix='/api')
 
     # Apply CORS after all blueprints are registered so it covers every route
-    CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173", r"https://.*\.vercel\.app"],
          methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
          allow_headers=["Content-Type", "Authorization"])
 
