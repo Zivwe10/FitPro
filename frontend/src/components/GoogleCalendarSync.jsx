@@ -4,6 +4,8 @@ import { Button, Box, Typography, Alert, CircularProgress } from '@mui/material'
 import { CalendarToday, Sync, LinkOff } from '@mui/icons-material';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+
 const GoogleCalendarSync = ({ userId, onSyncComplete }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +18,7 @@ const GoogleCalendarSync = ({ userId, onSyncComplete }) => {
 
   const checkCalendarStatus = async () => {
     try {
-      const response = await axios.get(`/api/auth/google/status?user_id=${userId}`);
+      const response = await axios.get(`${API_BASE_URL}/api/auth/google/status?user_id=${userId}`);
       setIsConnected(response.data.connected);
     } catch (err) {
       console.error('Failed to check calendar status:', err);
@@ -29,7 +31,7 @@ const GoogleCalendarSync = ({ userId, onSyncComplete }) => {
       setError(null);
       try {
         // Send authorization request to backend
-        const response = await axios.post('/api/auth/google/authorize', {
+        const response = await axios.post(`${API_BASE_URL}/api/auth/google/authorize`, {
           user_id: userId
         });
 
@@ -51,7 +53,7 @@ const GoogleCalendarSync = ({ userId, onSyncComplete }) => {
     setIsLoading(true);
     setError(null);
     try {
-      await axios.post('/api/auth/google/disconnect', {
+      await axios.post(`${API_BASE_URL}/api/auth/google/disconnect`, {
         user_id: userId
       });
       setIsConnected(false);
@@ -66,7 +68,7 @@ const GoogleCalendarSync = ({ userId, onSyncComplete }) => {
     setSyncing(true);
     setError(null);
     try {
-      const response = await axios.post('/api/workouts/sync-all', {
+      const response = await axios.post(`${API_BASE_URL}/api/workouts/sync-all`, {
         user_id: userId
       });
 
