@@ -8,12 +8,20 @@ import './index.css'
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 
+const appContent = (
+  <AuthProvider>
+    <App />
+  </AuthProvider>
+)
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={googleClientId}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </GoogleOAuthProvider>
+    {googleClientId ? (
+      <GoogleOAuthProvider clientId={googleClientId}>
+        {appContent}
+      </GoogleOAuthProvider>
+    ) : (
+      appContent
+    )}
   </React.StrictMode>
 )
