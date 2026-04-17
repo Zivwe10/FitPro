@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useGoogleLogin } from '@react-oauth/google';
 import { Button, Box, Typography, Alert, CircularProgress } from '@mui/material';
 import { CalendarToday, Sync, LinkOff } from '@mui/icons-material';
 import axios from 'axios';
@@ -25,29 +24,19 @@ const GoogleCalendarSync = ({ userId, onSyncComplete }) => {
     }
   };
 
-  const handleConnect = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        // Send authorization request to backend
-        const response = await axios.post(`${API_BASE_URL}/api/auth/google/authorize`, {
-          user_id: userId
-        });
-
-        // Redirect to Google OAuth
-        window.location.href = response.data.auth_url;
-      } catch (err) {
-        setError('Failed to initiate Google Calendar connection');
-        setIsLoading(false);
-      }
-    },
-    onError: () => {
-      setError('Google login failed');
+  const handleConnect = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/google/authorize`, {
+        user_id: userId
+      });
+      window.location.href = response.data.auth_url;
+    } catch (err) {
+      setError('Failed to initiate Google Calendar connection');
       setIsLoading(false);
-    },
-    scope: 'https://www.googleapis.com/auth/calendar.events'
-  });
+    }
+  };
 
   const handleDisconnect = async () => {
     setIsLoading(true);
