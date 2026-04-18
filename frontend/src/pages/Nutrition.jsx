@@ -10,6 +10,7 @@ import {
   IconButton,
   Button,
   TextField,
+  MenuItem,
   Divider,
   LinearProgress,
   Chip,
@@ -27,6 +28,8 @@ import {
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 
 const MEAL_SLOTS = ['Breakfast', 'Lunch', 'Dinner', 'Snack']
 const DEFAULT_CALORIES_GOAL = 2000
@@ -98,7 +101,7 @@ const Nutrition = () => {
 
   const loadBodyMetrics = async () => {
     try {
-      const response = await axios.get(`/api/nutrition/body-metrics?user_id=${userId}`)
+      const response = await axios.get(`${API_BASE_URL}/api/nutrition/body-metrics?user_id=${userId}`)
       if (response.data && Object.keys(response.data).length > 0) {
         setBodyMetrics({
           height_cm: response.data.height_cm || '',
@@ -116,7 +119,7 @@ const Nutrition = () => {
   const saveBodyMetrics = async (metrics) => {
     try {
       const payload = { user_id: userId, ...metrics }
-      await axios.post('/api/nutrition/body-metrics', payload)
+      await axios.post(`${API_BASE_URL}/api/nutrition/body-metrics`, payload)
       setSnackbar({ open: true, message: 'Body metrics saved', severity: 'success' })
     } catch (error) {
       console.error('Error saving body metrics:', error)
@@ -151,9 +154,9 @@ const Nutrition = () => {
   const loadNutritionData = async () => {
     try {
       const [entriesRes, weeklyRes, tipRes] = await Promise.all([
-        axios.get(`/api/nutrition/entries?user_id=${userId}&date=${formattedDate}`),
-        axios.get(`/api/nutrition/weekly?user_id=${userId}`),
-        axios.get(`/api/nutrition/tip?user_id=${userId}&date=${formattedDate}`)
+        axios.get(`${API_BASE_URL}/api/nutrition/entries?user_id=${userId}&date=${formattedDate}`),
+        axios.get(`${API_BASE_URL}/api/nutrition/weekly?user_id=${userId}`),
+        axios.get(`${API_BASE_URL}/api/nutrition/tip?user_id=${userId}&date=${formattedDate}`)
       ])
 
       setEntries(Array.isArray(entriesRes.data) ? entriesRes.data : [])
@@ -231,7 +234,7 @@ const Nutrition = () => {
         calories: Number(formValues.calories) || 0,
         protein: Number(formValues.protein) || 0
       }
-      const response = await axios.post('/api/nutrition/entries', payload)
+      const response = await axios.post(`${API_BASE_URL}/api/nutrition/entries`, payload)
       setEntries((current) => [...current, response.data])
       setSnackbar({ open: true, message: 'Entry added', severity: 'success' })
       closeForm()
@@ -244,7 +247,7 @@ const Nutrition = () => {
 
   const handleDeleteEntry = async (entryId) => {
     try {
-      await axios.delete(`/api/nutrition/entries/${entryId}?user_id=${userId}`)
+      await axios.delete(`${API_BASE_URL}/api/nutrition/entries/${entryId}?user_id=${userId}`)
       setEntries((current) => current.filter((entry) => entry.id !== entryId))
       setSnackbar({ open: true, message: 'Entry deleted', severity: 'success' })
       loadNutritionData()
@@ -490,11 +493,10 @@ const Nutrition = () => {
                     label={t('nutritionPage.gender', 'Gender')}
                     value={bodyMetrics.gender}
                     onChange={(e) => handleBodyMetricsChange('gender', e.target.value)}
-                    SelectProps={{ native: true }}
                   >
-                    <option value=""></option>
-                    <option value="male">{t('nutritionPage.male', 'Male')}</option>
-                    <option value="female">{t('nutritionPage.female', 'Female')}</option>
+                    <MenuItem value=""></MenuItem>
+                    <MenuItem value="male">{t('nutritionPage.male', 'Male')}</MenuItem>
+                    <MenuItem value="female">{t('nutritionPage.female', 'Female')}</MenuItem>
                   </TextField>
                 </Grid>
                 <Grid item xs={12}>
@@ -505,13 +507,12 @@ const Nutrition = () => {
                     label={t('nutritionPage.activityLevel', 'Activity Level')}
                     value={bodyMetrics.activity_level}
                     onChange={(e) => handleBodyMetricsChange('activity_level', e.target.value)}
-                    SelectProps={{ native: true }}
                   >
-                    <option value=""></option>
-                    <option value="sedentary">{t('nutritionPage.sedentary', 'Sedentary')}</option>
-                    <option value="lightly_active">{t('nutritionPage.lightlyActive', 'Lightly active')}</option>
-                    <option value="moderately_active">{t('nutritionPage.moderatelyActive', 'Moderately active')}</option>
-                    <option value="very_active">{t('nutritionPage.veryActive', 'Very active')}</option>
+                    <MenuItem value=""></MenuItem>
+                    <MenuItem value="sedentary">{t('nutritionPage.sedentary', 'Sedentary')}</MenuItem>
+                    <MenuItem value="lightly_active">{t('nutritionPage.lightlyActive', 'Lightly active')}</MenuItem>
+                    <MenuItem value="moderately_active">{t('nutritionPage.moderatelyActive', 'Moderately active')}</MenuItem>
+                    <MenuItem value="very_active">{t('nutritionPage.veryActive', 'Very active')}</MenuItem>
                   </TextField>
                 </Grid>
               </Grid>
