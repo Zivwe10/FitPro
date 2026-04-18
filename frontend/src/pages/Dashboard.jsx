@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import GoogleCalendarSync from '../components/GoogleCalendarSync'
 
@@ -7,7 +8,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
 
 function Dashboard() {
   const { t } = useTranslation()
-  const { userId, user } = useAuth()
+  const { userId, user, logout } = useAuth()
+  const navigate = useNavigate()
   const [profile, setProfile] = React.useState(null)
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState('')
@@ -22,6 +24,9 @@ function Dashboard() {
         if (response.ok) {
           const data = await response.json()
           setProfile(data.profile)
+        } else if (response.status === 404) {
+          logout()
+          navigate('/onboarding', { replace: true })
         } else {
           setError('Failed to load profile')
         }

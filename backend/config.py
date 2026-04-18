@@ -25,5 +25,7 @@ class ProductionConfig(Config):
     FLASK_ENV = "production"
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///app.db")
 
-# Default to development
-config = DevelopmentConfig()
+# Select config based on environment
+import os as _os
+_env = _os.getenv("FLASK_ENV", "development")
+config = ProductionConfig() if _env == "production" else DevelopmentConfig()

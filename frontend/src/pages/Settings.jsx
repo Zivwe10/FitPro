@@ -105,6 +105,9 @@ export default function Settings() {
           if (data.preferences) setPrefs(data.preferences)
           if (data.notifications) setNotifs(data.notifications)
           setGoogleConnected(!!data.google_calendar_enabled)
+        } else if (response.status === 404) {
+          logout()
+          navigate('/onboarding', { replace: true })
         } else {
           showToast('Failed to load settings', 'error')
         }
