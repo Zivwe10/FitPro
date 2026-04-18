@@ -268,8 +268,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
-  margin-left: 220px;
+  padding: 0 1.5rem;
 }
 
 .header-left {
@@ -1914,4 +1913,185 @@ p {
 @keyframes coachPulseFast {
   0%, 100% { transform: scale(1); }
   50%       { transform: scale(1.08); }
+}
+
+/* ── Mobile Navigation Primitives ──────────────────────────────────────── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  cursor: pointer;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  margin-right: 0.5rem;
+  color: var(--gray-700);
+  border-radius: var(--border-radius);
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--gray-100);
+}
+
+/* Logo shown in header only on mobile; hidden on desktop (sidebar has it) */
+.header-logo {
+  display: none;
+}
+
+/* ── Mobile / Tablet (≤ 768 px) ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Sidebar becomes a slide-in drawer */
+  .sidebar {
+    transform: translateX(-220px);
+    transition: transform 0.25s ease;
+    z-index: 200;
+  }
+
+  html[dir="rtl"] .sidebar {
+    left: auto;
+    right: 0;
+    transform: translateX(220px);
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+  /* Header spans the full viewport */
+  .header {
+    left: 0;
+  }
+
+  html[dir="rtl"] .header {
+    right: 0;
+    left: 0;
+  }
+
+  .header-content {
+    padding: 0 1rem;
+  }
+
+  /* Show hamburger button and logo in header */
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .header-logo {
+    display: flex;
+  }
+
+  /* Main content: no sidebar indent */
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* Reduce page container padding */
+  .page-container {
+    padding: 1rem;
+    padding-top: 4.5rem;
+  }
+
+  /* Scale down headings */
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  .page-title   { font-size: 1.625rem; }
+  .page-subtitle { font-size: 1rem; }
+
+  /* Dashboard: single column */
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Onboarding: reduce padding so card breathes on small screens */
+  .onboarding-container {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+
+  .onboarding-card {
+    padding: 1.5rem;
+  }
+
+  /* Settings: single-column form grid */
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Allow preference / device / account rows to wrap */
+  .settings-pref-row,
+  .settings-notif-row,
+  .settings-account-row,
+  .settings-device-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Toast: spread across bottom on mobile */
+  .settings-toast {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+
+  /* Form inline row: wrap camera / file / text on small screens */
+  .form-inline-row {
+    flex-wrap: wrap;
+  }
+
+  /* Workout planner week row: tighten day column */
+  .week-row {
+    grid-template-columns: 60px 1fr auto;
+  }
+
+  .week-row-left {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  /* Planner header: stack vertically */
+  .planner-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .week-label {
+    font-size: 0.875rem;
+  }
+
+  /* History card: allow actions to stack */
+  .history-card {
+    flex-wrap: wrap;
+  }
+
+  .history-actions {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 0.25rem;
+  }
+
+  /* Modal: ensure it fits small screens */
+  .modal-card {
+    max-width: calc(100vw - 2rem);
+  }
 }

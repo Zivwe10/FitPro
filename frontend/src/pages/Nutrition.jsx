@@ -258,7 +258,7 @@ const Nutrition = () => {
   }
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+    <Box sx={{ p: { xs: 1.5, sm: 3 }, maxWidth: 1200, mx: 'auto' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap' }}>
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
@@ -410,7 +410,7 @@ const Nutrition = () => {
                           />
                         </Grid>
                         <Grid item xs={12} sm={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Button variant="contained" size="small" onClick={() => handleAddEntry(meal)}>
+                          <Button variant="contained" size="small" fullWidth onClick={() => handleAddEntry(meal)}>
                             {t('nutritionPage.addEntry', 'Add Entry')}
                           </Button>
                         </Grid>
@@ -455,7 +455,7 @@ const Nutrition = () => {
               </Box>
 
               <Grid container spacing={2} sx={{ mb: 2 }}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
                     size="small"
@@ -465,7 +465,7 @@ const Nutrition = () => {
                     onChange={(e) => handleBodyMetricsChange('height_cm', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
                     size="small"
@@ -475,7 +475,7 @@ const Nutrition = () => {
                     onChange={(e) => handleBodyMetricsChange('weight_kg', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
                     size="small"
@@ -485,7 +485,7 @@ const Nutrition = () => {
                     onChange={(e) => handleBodyMetricsChange('age', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     select
                     fullWidth

@@ -299,7 +299,7 @@ const Progress = () => {
   const levelInfo = getLevelInfo()
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+    <Box sx={{ p: { xs: 1.5, sm: 3 }, maxWidth: 1200, mx: 'auto' }}>
       {/* Header */}
       <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
         {t('progress.title', 'Progress Dashboard')}

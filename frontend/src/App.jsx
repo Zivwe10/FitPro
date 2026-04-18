@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import Onboarding from './pages/Onboarding'
@@ -13,6 +13,7 @@ import Sidebar from './components/Sidebar'
 
 function App() {
   const { userId, isLoading } = useAuth()
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -25,9 +26,12 @@ function App() {
 
   const protectedLayout = (component) => (
     <div className="app-layout">
-      <Sidebar />
+      {mobileNavOpen && (
+        <div className="sidebar-overlay" onClick={() => setMobileNavOpen(false)} />
+      )}
+      <Sidebar isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <div className="main-content">
-        <Header />
+        <Header onMenuClick={() => setMobileNavOpen((v) => !v)} />
         {component}
       </div>
     </div>

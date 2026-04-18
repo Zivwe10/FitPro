@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const { t } = useTranslation()
   const location = useLocation()
 
@@ -79,7 +79,7 @@ const Sidebar = () => {
   ]
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar${isOpen ? ' sidebar-open' : ''}`}>
       <div className="sidebar-header">
         <div className="logo">
           <span className="logo-icon">
@@ -101,6 +101,7 @@ const Sidebar = () => {
             key={item.path}
             to={item.path}
             className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+            onClick={onClose}
           >
             <span className="nav-icon">{item.icon}</span>
             <span className="nav-label">{item.label}</span>
